@@ -1,0 +1,29 @@
+{
+  "name": "redux-react-grid-layout",
+  "version": "1.0.0",
+  "description": "Redux connector for react-grid-layout",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/plandem/redux-react-grid-layout.git"
+  },
+  "keywords": [
+    "grid",
+    "redux",
+    "react"
+  ],
+  "author": "Andrey Gayvoronsky",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/plandem/redux-react-grid-layout/issues"
+  },
+  "homepage": "https://github.com/plandem/redux-react-grid-layout#readme",
+  "dependencies": {
+    "react": "^0.14.7",
+    "react-redux": "^4.4.0",
+    "redux": "^3.3.1"
+  }
+}
