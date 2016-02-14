@@ -1,6 +1,6 @@
 export const autoincrement = state => { return (state.next || 0) + 1 };
 
-function compact(layout, vertical = true, horizontal = true) {
+function compact(layout, vertical, horizontal) {
 	if(!vertical && !horizontal) {
 		return layout;
 	}
@@ -75,11 +75,10 @@ function compact(layout, vertical = true, horizontal = true) {
 		}
 	}
 
-	console.log(layout.map((item, i) => updated[i] ? { ...item } : item));
 	return layout.map((item, i) => updated[i] ? { ...item } : item);
 }
 
 export const compact_vertical = layout => compact(layout, true, false);
 export const compact_horizontal = layout => compact(layout, false, true);
-export const compact_full = layout => compact(layout);
+export const compact_full = layout => compact(layout, true, true);
 export const compact_none = layout => layout;

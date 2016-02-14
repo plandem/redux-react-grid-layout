@@ -1,5 +1,5 @@
 import * as types from'./constants';
-import { compact_full, compact_none, autoincrement } from'./utils';
+import { compact_full, autoincrement } from'./utils';
 
 const initialState = {
 	layout: [],
@@ -26,13 +26,13 @@ function removeItem(state, id) {
 }
 
 function updateItem(state, newItem) {
-	return state.layout.map(item => (newItem.i == item.i ? newItem : item))
+	return state.layout.map(item => (newItem.i == item.i ? Object.assign({}, item, newItem) : item))
 }
 
-export function createGridReducer(grid, next = autoincrement, compactor = compact_full) {
+export function createGridReducer({ name, next = autoincrement, compactor = compact_full }) {
 	return (state = initialState, action) => {
 		//TODO: think about testing for action type in case if 'grid' property of action is using by other reducer
-		if(action.grid != grid) {
+		if(action.grid != name) {
 			return state;
 		}
 
