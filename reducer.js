@@ -24,7 +24,7 @@ function createItem(state, next, settings) {
 }
 
 function removeItem(state, id) {
-	return state.layout.filter(item => (item.i !== id) )
+	return state.layout.filter(item => (item.i !== id) );
 }
 
 function updateItem(state, newItem) {
@@ -42,7 +42,10 @@ export function createGridReducer({ name, next = autoincrement, compactor = comp
 			case types.ADD:
 				return Object.assign({}, state, createItem(state, next, action.settings));
 			case types.REMOVE:
-				return Object.assign({}, state, { layout: compactor(removeItem(state, action.id)) });
+				return Object.assign({}, state, {
+					selected: (state.selected != action.id ? state.selected : null),
+					layout: compactor(removeItem(state, action.id))
+				});
 			case types.UPDATE:
 				return Object.assign({}, state, { layout: compactor(updateItem(state, action.item)) });
 			case types.LAYOUT_CHANGE:
