@@ -7,15 +7,17 @@ const initialState = {
 };
 
 function createItem(state, next, settings) {
-	const id = next(state);
+	const { id, x, y, w, h, ...rest } = settings;
+	const next_id = id || next(state);
 	return {
-		next: id,
+		next: next_id,
 		layout: state.layout.concat({
-				i: settings.id || id.toString(),
-				x: settings.x || 0,
-				y: settings.y || state.layout.reduce((max_y, item) => Math.max(max_y, item.y + item.h), 0),
-				w: settings.w || 1,
-				h: settings.h || 1
+				i: next_id.toString(),
+				x: x || 0,
+				y: y || state.layout.reduce((max_y, item) => Math.max(max_y, item.y + item.h), 0),
+				w: w || 1,
+				h: h || 1,
+				... rest
 			}
 		)
 	};
