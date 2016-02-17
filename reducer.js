@@ -9,17 +9,36 @@ const initialState = {
 function createItem(state, next, settings) {
 	const { id, x, y, w, h, ...rest } = settings;
 	const next_id = id || next(state);
+	return [next_id, {
+		i: next_id.toString(),
+		x: x || 0,
+		y: y || state.layout.reduce((max_y, item) => Math.max(max_y, item.y + item.h), 0),
+		w: w || 1,
+		h: h || 1,
+		... rest
+	}];
+}
+
+function create(state, next, settings) {
+	let inserts;
+	let next_id;
+	if(Array.isArray(settings)) {
+		const tempoState = {...state};
+		inserts = [];
+		settings.forEach(item => {
+			let [id, insert] = createItem(tempoState, next, item);
+			tempoState.next = id;
+			inserts.push(insert);
+		});
+
+		next_id = tempoState.next;
+	} else {
+		[next_id, inserts] = createItem(state, next, settings)
+	}
+
 	return {
 		next: next_id,
-		layout: state.layout.concat({
-				i: next_id.toString(),
-				x: x || 0,
-				y: y || state.layout.reduce((max_y, item) => Math.max(max_y, item.y + item.h), 0),
-				w: w || 1,
-				h: h || 1,
-				... rest
-			}
-		)
+		layout: state.layout.concat(inserts)
 	};
 }
 
@@ -40,7 +59,7 @@ export function createGridReducer({ name, next = autoincrement, compactor = comp
 
 		switch (action.type) {
 			case types.ADD:
-				return Object.assign({}, state, createItem(state, next, action.settings));
+				return Object.assign({}, state, create(state, next, action.settings));
 			case types.REMOVE:
 				return Object.assign({}, state, {
 					selected: (state.selected != action.id ? state.selected : null),
