@@ -6,6 +6,7 @@ const initialState = {
 	selected: null
 };
 
+//create item with modifying state
 function createItem(state, next, settings) {
 	const { id, x, y, w, h, ...rest } = settings;
 	const next_id = id || next(state);
@@ -19,7 +20,8 @@ function createItem(state, next, settings) {
 	}];
 }
 
-function create(state, next, settings) {
+//return updated state with added item/items
+function add(state, next, settings) {
 	let inserts;
 	let next_id;
 	if(Array.isArray(settings)) {
@@ -59,7 +61,7 @@ export function createGridReducer({ name, next = autoincrement, compactor = comp
 
 		switch (action.type) {
 			case types.ADD:
-				return Object.assign({}, state, create(state, next, action.settings));
+				return Object.assign({}, state, add(state, next, action.settings));
 			case types.REMOVE:
 				return Object.assign({}, state, {
 					selected: (state.selected != action.id ? state.selected : null),
